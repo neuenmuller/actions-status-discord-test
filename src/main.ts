@@ -60,18 +60,16 @@ function getPayload(status: string, description: string, job: string): object {
     let eventDetail = eventName
     switch (eventName) {
         case "push":
-            if (!payload.push) break
-            if (payload.push.size == 0) {
+            if (payload.size == 0) {
                 eventDetail = `Push: \`${sha.substring(0, 7)}\``
             } else {
-                const commit = payload.push.commits[0]
+                const commit = payload.commits[payload.size-1]
                 eventDetail = `Push: \`[${commit.sha.substring(0, 7)}](${commit.url})\` ${commit.message}`
             }
 
             break
         case "pull_request":
-            if (!payload.pull_request) break
-            eventDetail = `Pull Request: \`[#${payload.pull_request.number}](${payload.pull_request.url})\` ${payload.pull_request.title}`
+            eventDetail = `Pull Request: \`[#${payload.number}](${payload.url})\` ${payload.title}`
             break
     }
 
