@@ -61,13 +61,13 @@ function getPayload(status: string, description: string, job: string): object {
     switch (eventName) {
         case "push":
             if (payload.head_commit) {
-                eventDetail = `Push: \`[${payload.head_commit.id.substring(0, 7)}](${payload.head_commit.url})\` ${payload.head_commit.message}`
+                eventDetail = `Push: [\`${payload.head_commit.id.substring(0, 7)}\`](${payload.head_commit.url}) ${payload.head_commit.message}`
             } else {
                 eventDetail = `Push: \`${sha.substring(0, 7)}\``
             }
             break
         case "pull_request":
-            eventDetail = `Pull Request: \`[#${payload.number}](${payload.url})\` ${payload.title}`
+            eventDetail = `Pull Request: [\`#${payload.number}\`](${payload.url}) ${payload.title}`
             break
     }
 
