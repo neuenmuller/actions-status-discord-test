@@ -55,6 +55,8 @@ function getPayload(status: string, description: string, job: string): object {
     const repoURL = `https://github.com/${owner}/${repo}`
     const workflowURL = `${repoURL}/commit/${sha}/checks`
     
+    core.debug(payload)
+
     let eventDetail: string
     switch (eventName) {
         case "push":
@@ -64,7 +66,7 @@ function getPayload(status: string, description: string, job: string): object {
                 const commit = payload.push.commits[0]
                 eventDetail = `Push: \`[${commit.sha.substring(0, 7)}](${commit.url})\` ${commit.message}`
             }
-            
+
             break
         case "pull_request":
             eventDetail = `Pull Request: \`[#${payload.pull_request.number}](${payload.pull_request.url})\` ${payload.pull_request.title}`
