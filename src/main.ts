@@ -60,14 +60,11 @@ function getPayload(status: string, description: string, job: string): object {
     let eventDetail = eventName
     switch (eventName) {
         case "push":
-            if (payload.size == 0) {
-                eventDetail = `Push: \`${sha.substring(0, 7)}\``
+            if (payload.head_commit) {
+                eventDetail = `Push: \`[${payload.head_commit.id.substring(0, 7)}](${payload.head_commit.url})\` ${payload.head_commit.message}`
             } else {
-                const commit = payload.commits[payload.size-1]
-                // ??? https://developer.github.com/v3/activity/events/types/#pushevent
-                eventDetail = `Push: \`[${commit.id.substring(0, 7)}](${commit.url})\` ${commit.message}`
+                eventDetail = `Push: \`${sha.substring(0, 7)}\``
             }
-
             break
         case "pull_request":
             eventDetail = `Pull Request: \`[#${payload.number}](${payload.url})\` ${payload.title}`
