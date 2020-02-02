@@ -67,7 +67,9 @@ function getPayload(status: string, description: string, job: string): object {
             }
             break
         case "pull_request":
-            eventDetail = `Pull Request: [\`#${payload.number}\`](${payload.url}) ${payload.title}`
+            if (payload.pull_request) {
+                eventDetail = `Pull Request: [\`#${payload.pull_request.number}\`](${payload.pull_request.url}) ${payload.pull_request.title}`
+            }
             break
     }
 
