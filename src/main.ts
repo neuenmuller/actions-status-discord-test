@@ -51,11 +51,30 @@ function logError(msg: string, nofail: boolean): void {
 function getPayload(status: string, description: string, job: string): object {
     const ctx = github.context
     const { owner, repo } = ctx.repo
-    const { eventName, sha, ref, workflow, actor } = ctx
+    const { eventName, sha, ref, workflow, actor, payload } = ctx
     const repoURL = `https://github.com/${owner}/${repo}`
     const workflowURL = `${repoURL}/commit/${sha}/checks`
+    
+    let eventDetail: string
+    switch (eventName) {
+        case "push":
+            if (payload.push.size == 0) {
+                eventDetail = `Push: \`${sha.substring(0, 7)}\``
+            } else {
+                const commit = payload.push.commits[0]
+                eventDetail = `Push: \`[${commit.sha.substring(0, 7)}](${commit.url})\` ${commit.message}`
+            }
+            
+            break
+        case "pull_request":
+            eventDetail = `Pull Request: \`[#${payload.pull_request.number}](${payload.pull_request.url})\` ${payload.pull_request.title}`
+            break
+        default:
+            eventDetail = eventName
+            break
+    }
 
-    let payload = {
+    let embed = {
         embeds: [{
             title: statusOpts[status].status + (job ? `: ${job}` : ''),
             color: statusOpts[status].color,
@@ -74,8 +93,8 @@ function getPayload(status: string, description: string, job: string): object {
                 },
                 {
                     name: 'Event',
-                    value: eventName,
-                    inline: true
+                    value: eventDetail,
+                    inline: false
                 },
                 {
                     name: 'Triggered by',
@@ -91,8 +110,8 @@ function getPayload(status: string, description: string, job: string): object {
         }]
     }
 
-    core.debug(`payload: ${JSON.stringify(payload)}`)
-    return payload
+    core.debug(`embed: ${JSON.stringify(embed)}`)
+    return embed
 }
 
 run()
