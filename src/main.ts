@@ -55,7 +55,7 @@ function getPayload(status: string, description: string, job: string): object {
     const repoURL = `https://github.com/${owner}/${repo}`
     const workflowURL = `${repoURL}/commit/${sha}/checks`
     
-    core.debug(payload)
+    core.debug(JSON.stringify(payload))
 
     let eventDetail: string
     switch (eventName) {
