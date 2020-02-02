@@ -64,7 +64,8 @@ function getPayload(status: string, description: string, job: string): object {
                 eventDetail = `Push: \`${sha.substring(0, 7)}\``
             } else {
                 const commit = payload.commits[payload.size-1]
-                eventDetail = `Push: \`[${commit.sha.substring(0, 7)}](${commit.url})\` ${commit.message}`
+                // ??? https://developer.github.com/v3/activity/events/types/#pushevent
+                eventDetail = `Push: \`[${commit.id.substring(0, 7)}](${commit.url})\` ${commit.message}`
             }
 
             break
