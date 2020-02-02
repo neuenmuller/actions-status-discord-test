@@ -57,9 +57,10 @@ function getPayload(status: string, description: string, job: string): object {
     
     core.debug(JSON.stringify(payload))
 
-    let eventDetail: string
+    let eventDetail = eventName
     switch (eventName) {
         case "push":
+            if (!payload.push) break
             if (payload.push.size == 0) {
                 eventDetail = `Push: \`${sha.substring(0, 7)}\``
             } else {
@@ -69,10 +70,8 @@ function getPayload(status: string, description: string, job: string): object {
 
             break
         case "pull_request":
+            if (!payload.pull_request) break
             eventDetail = `Pull Request: \`[#${payload.pull_request.number}](${payload.pull_request.url})\` ${payload.pull_request.title}`
-            break
-        default:
-            eventDetail = eventName
             break
     }
 
