@@ -1,8 +1,8 @@
-name: 'test cancel'
+name: 'generate demo'
 on: [push, pull_request]
 
 jobs:
-  test:
+  demo:
     runs-on: ubuntu-latest
     env:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK3 }}
