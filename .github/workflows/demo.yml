@@ -1,0 +1,36 @@
+name: 'test cancel'
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK3 }}
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        npm ci
+        npm run build
+    - name: Demo normal
+      uses: ./
+      if: always()
+      with:
+        status: ${{ job.status }}
+        job: Build
+        description: Build and deploy to staging
+    - name: Demo failure
+      uses: ./
+      if: always()
+      with:
+        status: Failure
+        job: Build
+        description: Build and deploy to staging
+        username: GitHub Actions
+    - name: Demo nodetail
+      uses: ./
+      if: always()
+      with:
+        color: 0x75e8ff
+        nodetail: true
+        job: Build
+        description: Build and deploy to staging
