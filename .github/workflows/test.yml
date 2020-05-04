@@ -22,7 +22,7 @@ jobs:
       uses: ./
       if: always()
       with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK2 }}
+        webhook: ${{ secrets.DISCORD_WEBHOOK4 }}
     - run: sleep 1
 
     - name: Test job
@@ -59,6 +59,13 @@ jobs:
       if: always()
       with:
         nodetail: true
+    - run: sleep 1
+
+    - name: Test notdetail title
+      uses: ./
+      with:
+        nodetail: true
+        job: titletest
     - run: sleep 1
 
     - name: Test color override
