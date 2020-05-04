@@ -63,6 +63,7 @@ jobs:
 
     - name: Test notdetail title
       uses: ./
+      if: always()
       with:
         nodetail: true
         job: titletest
