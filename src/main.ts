@@ -46,7 +46,7 @@ async function run() {
     } catch (e) {
         logError("Failed to execute webhook:", nofail)
         if (e.response) {
-            logError(`${e.response.status}: ${e.response.data}`, nofail)
+            logError(`${e.response.status}: ${JSON.stringify(e.response.data)}`, nofail)
         } else {
             logError(e, nofail)
         }
