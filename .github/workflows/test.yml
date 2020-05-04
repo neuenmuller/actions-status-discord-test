@@ -25,6 +25,13 @@ jobs:
         webhook: ${{ secrets.DISCORD_WEBHOOK4 }}
     - run: sleep 1
 
+    - name: Test invalid webhook
+      uses: ./
+      if: always()
+      with:
+        webhook: "https://404.sarisia"
+    - run: sleep 1
+
     - name: Test job
       uses: ./
       if: always()
