@@ -26,7 +26,7 @@ async function run() {
     const nofail: boolean = core.getInput('nofail').trim().toLowerCase() == 'true'
     const nodetail: boolean = core.getInput('nodetail').trim().toLowerCase() == 'true'
     const webhook: string = core.getInput('webhook') || process.env.DISCORD_WEBHOOK || ''
-    const webhooks: string[] = webhook.split(",")
+    const webhooks: string[] = webhook.trim().split("\n")
     if (!webhooks.length) {
         logError('No webhook endpoint is given', nofail)
         process.exit()
